@@ -26,10 +26,12 @@
                          :port 6667
                          :frame (string :utf-8 :delimiters ["\r\n"] :as-str true)})
         setup-irc (fn []
-                    (siphon (->> ch fork (map* parse-ping) (filter* (complement nil?)) (map* pong-cmd)) ch)
+                    (siphon (->> ch fork (map* parse-ping)
+                                 (filter* (complement nil?)) 
+                                 (map* pong-cmd)) ch)
                     (apply enqueue ch (handshake)))]
     (receive-all (fork ch) println)
-    (setup-irc)
+   (setup-irc)
     ch))
 
 (defonce irc-channel (irc-connect))
